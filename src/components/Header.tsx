@@ -7,7 +7,7 @@ interface Prop {
 
 const Header = ({ isAuth }: Prop) => {
   return (
-    <div className="w-screen pl-10 pr-14 py-[19px] border-b-mono-3 flex flex-row justify-between items-center">
+    <div className="w-screen pl-10 pr-14 py-[19px] border-b border-b-mono-4 flex flex-row justify-between items-center">
       <h1 className="text-main-1 text-4xl">우리끼리</h1>
       {isAuth && (
         <div className="w-[52px] h-[52px] rounded-full bg-main-1 flex justify-center items-center">
