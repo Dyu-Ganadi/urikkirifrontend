@@ -30,6 +30,7 @@ export default {
           5: "#EBEBEB",
           6: "#F5F5F5",
         },
+        background: "FFFBEF",
       },
     },
   },
