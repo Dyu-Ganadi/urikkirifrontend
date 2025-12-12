@@ -34,7 +34,7 @@ const LoginButton = ({ isAuth }: Prop) => {
             <img src={add_game} />
           </div>
         ) : (
-          <div className="text-2xl">
+          <div className="text-2xl" onClick={() => navigate("/signup")}>
             계정이 없다면? <span className="text-main-1">회원가입</span>
           </div>
         )}

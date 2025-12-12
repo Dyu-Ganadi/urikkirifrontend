@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import GamePage from "./pages/GamePage.tsx";
+import SignupPage from "./pages/SignupPage";
 
 const Layout = () => {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/game" element={<GamePage />} />
+          <Route path="/signup" element={<SignupPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
