@@ -16,7 +16,7 @@ const LandingPage = () => {
       </div>
 
       <div className="w-1/2 flex flex-col justify-center items-center">
-        <LoginButton isAuth={false} />
+        <LoginButton isAuth={true} />
       </div>
     </div>
   );

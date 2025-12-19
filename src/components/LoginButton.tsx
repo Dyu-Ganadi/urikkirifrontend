@@ -11,7 +11,7 @@ const LoginButton = ({ isAuth }: Prop) => {
 
   const handleTopClick = () => {
     if (isAuth) {
-      navigate("/");
+      navigate("/enter-room");
     } else {
       navigate("/login");
     }
