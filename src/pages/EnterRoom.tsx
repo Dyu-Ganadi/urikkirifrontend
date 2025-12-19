@@ -1,7 +1,9 @@
 import { useState } from "react";
 import key_icon from "../assets/icon/key.svg";
+import { useNavigate } from "react-router-dom";
 
 const EnterRoom = () => {
+  const navigate = useNavigate();
   const [key, setKey] = useState("");
 
   const isDisabled = key.trim().length === 0;
@@ -20,6 +22,7 @@ const EnterRoom = () => {
             />
           </div>
           <button
+            onClick={() => navigate("/wait-room")}
             disabled={isDisabled}
             className={`w-[146px] h-[70px] text-2xl rounded-[10px] transition
               ${
