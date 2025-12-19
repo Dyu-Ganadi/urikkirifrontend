@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import GamePage from "./pages/GamePage.tsx";
 import SignupPage from "./pages/SignupPage";
 import MyPage from "./pages/MyPage";
+import RankingPage from "./pages/RankingPage.tsx";
 
 const Layout = () => {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/game" element={<GamePage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/ranking" element={<RankingPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
