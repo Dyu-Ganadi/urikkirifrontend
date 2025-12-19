@@ -52,7 +52,7 @@ const RankingPage = () => {
             </div>
           </div>
 
-          <div className="h-[830px] overflow-y-scroll relative ">
+          <div className="h-[830px] overflow-y-scroll relative ranking-mask">
             <RankingChart ranking={dummyRanking} />
           </div>
         </div>

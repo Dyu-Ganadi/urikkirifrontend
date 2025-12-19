@@ -28,3 +28,10 @@
   -o-user-select: none;
   user-select: none;
 }
+
+.ranking-mask {
+  mask: url("../public/ranking-mask.png");
+  mask-size: cover;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
