@@ -16,7 +16,7 @@ const LevelChart = () => {
           data={data}
           cx="50%"
           cy="50%"
-          innerRadius={60}
+          innerRadius={0}
           outerRadius={100}
           startAngle={90}
           endAngle={450}

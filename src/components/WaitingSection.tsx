@@ -1,4 +1,3 @@
-import React from "react";
 import WaitingCard from "./WaitingCard";
 
 const WaitingSection = () => {
