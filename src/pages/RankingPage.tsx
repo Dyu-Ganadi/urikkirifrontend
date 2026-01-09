@@ -1,6 +1,4 @@
-import React from "react";
-import LevelChart from "../components/LevelChart";
-import RankingChart from "../components/RankingChart";
+import { LevelChart, RankingChart } from "../components/index";
 
 export interface RankingItem {
   id: number;
@@ -32,7 +30,7 @@ const dummyRanking = [
   { id: 20, nickname: "정글꼬마원숭이", level: 1, banana: 150 },
 ];
 
-const RankingPage = () => {
+export const RankingPage = () => {
   return (
     <div className="w-screen min-h-screen overflow-hidden flex justify-center pt-[90px] bg-[url('/public/login-bg.png')] bg-cover bg-center">
       <div className="w-screen flex justify-center pt-[45px]">
@@ -60,5 +58,3 @@ const RankingPage = () => {
     </div>
   );
 };
-
-export default RankingPage;

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import AuthInput from "../components/AuthInput";
-import AuthButton from "../components/AuthButton";
+import { useState } from "react";
+import { AuthInput, AuthButton } from "../components/index";
 
-const SignupPage = () => {
+export const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
@@ -42,5 +41,3 @@ const SignupPage = () => {
     </div>
   );
 };
-
-export default SignupPage;

@@ -1,9 +1,8 @@
-import copy_icon from "../assets/icon/copy_icon.svg";
-import WaitingSection from "../components/WaitingSection";
-import exit_white from "../assets/icon/exit_white.svg";
 import { useNavigate } from "react-router-dom";
+import { WaitingSection } from "../components/index";
+import { exit_white, copy_icon } from "../assets/icon/index";
 
-const WaitingRoom = () => {
+export const WaitingRoom = () => {
   const navigate = useNavigate();
 
   return (
@@ -27,5 +26,3 @@ const WaitingRoom = () => {
     </div>
   );
 };
-
-export default WaitingRoom;

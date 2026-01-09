@@ -1,8 +1,7 @@
-import React from "react";
 import email_icon from "../assets/icon/email-icon.svg";
-import LevelChart from "../components/LevelChart";
+import { LevelChart } from "../components/index";
 
-const MyPage = () => {
+export const MyPage = () => {
   return (
     <div className="w-screen min-h-screen flex flex-col">
       <div className="w-full h-[370px] bg-main-4 pt-[122px] flex justify-center">
@@ -27,5 +26,3 @@ const MyPage = () => {
     </div>
   );
 };
-
-export default MyPage;

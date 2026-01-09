@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import AuthInput from "../components/AuthInput";
-import AuthButton from "../components/AuthButton";
+import { useState } from "react";
+import { AuthInput, AuthButton } from "../components/index";
 
-const LoginPage = () => {
+export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,5 +26,3 @@ const LoginPage = () => {
     </div>
   );
 };
-
-export default LoginPage;

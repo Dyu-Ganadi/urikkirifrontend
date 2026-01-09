@@ -1,7 +1,7 @@
 import monkey1 from "../assets/images/monkey1.png";
-import LoginButton from "../components/LoginButton";
+import { LoginButton } from "../components/index";
 
-const LandingPage = () => {
+export const LandingPage = () => {
   return (
     <div className="flex-1 overflow-hidden flex flex-row">
       <div className="w-1/2 flex flex-col justify-center items-center gap-10">
@@ -21,5 +21,3 @@ const LandingPage = () => {
     </div>
   );
 };
-
-export default LandingPage;

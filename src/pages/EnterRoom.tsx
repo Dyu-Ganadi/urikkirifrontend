@@ -1,8 +1,8 @@
 import { useState } from "react";
-import key_icon from "../assets/icon/key.svg";
 import { useNavigate } from "react-router-dom";
+import { key_icon } from "../assets/icon/index";
 
-const EnterRoom = () => {
+export const EnterRoom = () => {
   const navigate = useNavigate();
   const [key, setKey] = useState("");
 
@@ -38,5 +38,3 @@ const EnterRoom = () => {
     </div>
   );
 };
-
-export default EnterRoom;

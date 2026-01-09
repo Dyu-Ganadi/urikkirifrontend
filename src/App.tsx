@@ -1,13 +1,15 @@
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import Header from "./components/Header";
-import LandingPage from "./pages/LandingPage";
-import LoginPage from "./pages/LoginPage";
-import GamePage from "./pages/GamePage.tsx";
-import SignupPage from "./pages/SignupPage";
-import MyPage from "./pages/MyPage";
-import RankingPage from "./pages/RankingPage.tsx";
-import EnterRoom from "./pages/EnterRoom.tsx";
-import WaitingRoom from "./pages/WaitingRoom.tsx";
+import { Header } from "./components/index.ts";
+import {
+  LandingPage,
+  LoginPage,
+  GamePage,
+  SignupPage,
+  MyPage,
+  RankingPage,
+  EnterRoom,
+  WaitingRoom,
+} from "./pages/index.ts";
 
 const Layout = () => {
   return (
