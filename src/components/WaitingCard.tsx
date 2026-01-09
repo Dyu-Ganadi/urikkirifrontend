@@ -6,7 +6,7 @@ interface Prop {
   name?: string;
 }
 
-const WaitingCard = ({ level, name }: Prop) => {
+export const WaitingCard = ({ level, name }: Prop) => {
   const isEmpty = !name;
 
   return (
@@ -33,5 +33,3 @@ const WaitingCard = ({ level, name }: Prop) => {
     </div>
   );
 };
-
-export default WaitingCard;

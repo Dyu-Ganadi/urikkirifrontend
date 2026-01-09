@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import person_icon from "../assets/icon/person-icon-white.svg";
-import exit from "../assets/icon/exit.svg";
+import { useState } from "react";
+import { person_icon_white, exit } from "../assets/icon/index";
 import { useNavigate } from "react-router-dom";
 
 interface Prop {
   isAuth: boolean;
 }
 
-const Header = ({ isAuth }: Prop) => {
+export const Header = ({ isAuth }: Prop) => {
   const [clickProfile, setClickProfile] = useState(false);
   const navigate = useNavigate();
 
@@ -25,7 +24,7 @@ const Header = ({ isAuth }: Prop) => {
             className="w-[52px] h-[52px] relative rounded-full bg-main-1 flex justify-center items-center "
             onClick={handleClick}
           >
-            <img src={person_icon} className="w-10 h-10" />
+            <img src={person_icon_white} className="w-10 h-10" />
           </div>
           {clickProfile && (
             <div className="absolute right-24 top-16 w-[260px] rounded-[20px] border border-mono-3 overflow-hidden bg-white flex flex-col">
@@ -63,5 +62,3 @@ const Header = ({ isAuth }: Prop) => {
     </div>
   );
 };
-
-export default Header;

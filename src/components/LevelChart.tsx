@@ -1,5 +1,5 @@
 import { PieChart, Pie, Cell } from "recharts";
-import banana_icon from "../assets/icon/banana-icon.svg";
+import { banana_icon } from "../assets/icon/index";
 
 const data = [
   { name: "progress", value: 70 },
@@ -8,7 +8,7 @@ const data = [
 
 const COLORS = ["#FFF09A", "white"]; // 원하는 색 넣기
 
-const LevelChart = () => {
+export const LevelChart = () => {
   return (
     <div className="relative flex items-center justify-center">
       <PieChart width={250} height={250}>
@@ -32,5 +32,3 @@ const LevelChart = () => {
     </div>
   );
 };
-
-export default LevelChart;

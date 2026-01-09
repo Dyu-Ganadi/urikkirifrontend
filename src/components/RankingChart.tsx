@@ -1,11 +1,11 @@
 import type { RankingItem } from "../pages/RankingPage";
-import RankBar from "./RankBar";
+import { RankBar } from "./index";
 
 interface Prop {
   ranking: RankingItem[];
 }
 
-const RankingChart = ({ ranking }: Prop) => {
+export const RankingChart = ({ ranking }: Prop) => {
   return (
     <div className="flex flex-col gap-6 justify-start overflow-y-scroll">
       {/* 위에 바 */}
@@ -32,5 +32,3 @@ const RankingChart = ({ ranking }: Prop) => {
     </div>
   );
 };
-
-export default RankingChart;

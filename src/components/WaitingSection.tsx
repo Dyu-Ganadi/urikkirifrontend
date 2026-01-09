@@ -1,6 +1,6 @@
-import WaitingCard from "./WaitingCard";
+import { WaitingCard } from "./index";
 
-const WaitingSection = () => {
+export const WaitingSection = () => {
   const players = [
     { level: 10, name: "우끼끼" },
     { level: 5, name: "화났기" },
@@ -16,5 +16,3 @@ const WaitingSection = () => {
     </div>
   );
 };
-
-export default WaitingSection;

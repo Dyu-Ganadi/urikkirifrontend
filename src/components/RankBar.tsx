@@ -1,14 +1,12 @@
 import type { RankingItem } from "../pages/RankingPage";
-import first_medal from "../assets/icon/first_medal.svg";
-import second_medal from "../assets/icon/second_medal.svg";
-import third_medal from "../assets/icon/third_medal.svg";
+import { first_medal, second_medal, third_medal } from "../assets/icon/index";
 
 interface Prop {
   rank: RankingItem;
   idx: number;
 }
 
-const RankBar = ({ rank, idx }: Prop) => {
+export const RankBar = ({ rank, idx }: Prop) => {
   return (
     <>
       {idx <= 2 && (
@@ -51,5 +49,3 @@ const RankBar = ({ rank, idx }: Prop) => {
     </>
   );
 };
-
-export default RankBar;

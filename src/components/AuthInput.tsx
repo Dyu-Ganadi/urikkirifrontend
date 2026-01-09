@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import person_icon from "../assets/icon/person-icon-black.svg";
-import lock_icon from "../assets/icon/lock-icon.svg";
-import eye_open from "../assets/icon/eye-open.svg";
-import eye_closed from "../assets/icon/eye-closed.svg";
+import { useState } from "react";
+import {
+  person_icon_black,
+  lock_icon,
+  eye_open,
+  eye_closed,
+} from "../assets/icon/index";
 
 interface Prop {
   label: string;
@@ -12,7 +14,13 @@ interface Prop {
   onNicknameCheck?: () => void; // 별명 중복확인
 }
 
-const AuthInput = ({ label, type, value, onChange, onNicknameCheck }: Prop) => {
+export const AuthInput = ({
+  label,
+  type,
+  value,
+  onChange,
+  onNicknameCheck,
+}: Prop) => {
   const [isLocked, setIsLocked] = useState(true);
 
   const togglePassword = () => {
@@ -30,7 +38,7 @@ const AuthInput = ({ label, type, value, onChange, onNicknameCheck }: Prop) => {
 
   return (
     <div className="relative w-[414px] flex flex-row gap-3 items-center bg-white rounded-[4px] border border-mono-5 p-3 text-xl font-normal overflow-hidden font-pretendard">
-      {!isPasswordField && <img src={person_icon} alt="user" />}
+      {!isPasswordField && <img src={person_icon_black} alt="user" />}
       {isPasswordField && <img src={lock_icon} alt="lock" />}
 
       <input
@@ -61,5 +69,3 @@ const AuthInput = ({ label, type, value, onChange, onNicknameCheck }: Prop) => {
     </div>
   );
 };
-
-export default AuthInput;

@@ -1,12 +1,11 @@
-import React from "react";
-import add_game from "../assets/icon/add_game.svg";
+import { add_game } from "../assets/icon/index";
 import { useNavigate } from "react-router-dom";
 
 interface Prop {
   isAuth: boolean;
 }
 
-const LoginButton = ({ isAuth }: Prop) => {
+export const LoginButton = ({ isAuth }: Prop) => {
   const navigate = useNavigate();
 
   const handleTopClick = () => {
@@ -42,5 +41,3 @@ const LoginButton = ({ isAuth }: Prop) => {
     </div>
   );
 };
-
-export default LoginButton;
