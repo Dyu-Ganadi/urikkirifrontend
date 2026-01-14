@@ -1,9 +1,18 @@
 import { useState } from "react";
 import { AuthInput, AuthButton } from "../components/index";
+import { userApi } from "../api/user";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    const { data } = await userApi.login({
+      email: email,
+      password: password,
+    });
+    localStorage.setItem("accessToken", data.accessToken);
+  };
 
   return (
     <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[url('/public/login-bg.png')] bg-cover bg-center">
@@ -21,7 +30,7 @@ export const LoginPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <AuthButton text="로그인" />
+        <AuthButton onClick={handleLogin} text="로그인" />
       </div>
     </div>
   );
