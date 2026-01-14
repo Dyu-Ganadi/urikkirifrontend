@@ -1,8 +1,8 @@
-import type { RankingItem } from "../pages/RankingPage";
+import type { RankingUser } from "../api/types";
 import { first_medal, second_medal, third_medal } from "../assets/icon/index";
 
 interface Prop {
-  rank: RankingItem;
+  rank: RankingUser;
   idx: number;
 }
 
@@ -23,7 +23,7 @@ export const RankBar = ({ rank, idx }: Prop) => {
             {rank.level}
           </div>
           <div className="w-[160px] flex justify-center items-center py-3">
-            {rank.banana}
+            {rank.bananaxp}
           </div>
         </div>
       )}
@@ -42,7 +42,7 @@ export const RankBar = ({ rank, idx }: Prop) => {
             {rank.level}
           </div>
           <div className="w-[160px] flex justify-center items-center py-3">
-            {rank.banana}
+            {rank.bananaxp}
           </div>
         </div>
       )}
