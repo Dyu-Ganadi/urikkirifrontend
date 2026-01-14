@@ -1,14 +1,21 @@
 import { PieChart, Pie, Cell } from "recharts";
 import { banana_icon } from "../assets/icon/index";
 
-const data = [
-  { name: "progress", value: 70 },
-  { name: "remain", value: 30 },
-];
+interface Props {
+  bananaxp: number;
+}
 
-const COLORS = ["#FFF09A", "white"]; // 원하는 색 넣기
+export const LevelChart = ({ bananaxp }: Props) => {
+  const progress = (bananaxp / 10) * 100;
+  const remain = 100 - progress;
 
-export const LevelChart = () => {
+  const data = [
+    { name: "progress", value: progress },
+    { name: "remain", value: remain },
+  ];
+
+  const COLORS = ["#FFF09A", "white"];
+
   return (
     <div className="relative flex items-center justify-center">
       <PieChart width={250} height={250}>
