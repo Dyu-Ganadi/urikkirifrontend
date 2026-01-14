@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { person_icon_white, exit } from "../assets/icon/index";
 import { useNavigate } from "react-router-dom";
+import { userApi } from "../api/user";
 
 interface Prop {
   isAuth: boolean;
@@ -12,6 +13,11 @@ export const Header = ({ isAuth }: Prop) => {
 
   const handleClick = () => {
     setClickProfile(!clickProfile);
+  };
+
+  const handleLogout = async () => {
+    await userApi.logout();
+    localStorage.removeItem("accessToken");
   };
   return (
     <div className="w-screen pl-10 pr-14 py-[19px] bg-white border-b border-b-mono-4 flex flex-row justify-between items-center">
@@ -48,6 +54,7 @@ export const Header = ({ isAuth }: Prop) => {
               </div>
               <div
                 onClick={() => {
+                  handleLogout();
                   handleClick();
                 }}
                 className="flex flex-row gap-2 justify-center py-5 text-[25px] text-system-error"

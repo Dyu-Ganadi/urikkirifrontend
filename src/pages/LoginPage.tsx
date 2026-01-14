@@ -7,11 +7,24 @@ export const LoginPage = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const { data } = await userApi.login({
-      email: email,
-      password: password,
-    });
-    localStorage.setItem("accessToken", data.accessToken);
+    if (!email) {
+      alert("이메일을 입력하세요.");
+      return;
+    }
+    if (!password) {
+      alert("비밀번호를 입력하세요.");
+      return;
+    }
+
+    try {
+      const { data } = await userApi.login({
+        email: email,
+        password: password,
+      });
+      localStorage.setItem("accessToken", data.accessToken);
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   return (
