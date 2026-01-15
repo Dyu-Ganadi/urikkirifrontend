@@ -10,8 +10,8 @@ export interface SignupRequest {
 }
 
 export interface AuthResponse {
-  accessToken: string;
-  accessExp: string;
+  access_token: string;
+  access_exp: string;
 }
 
 export interface MyPageResponse {

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { AuthInput, AuthButton } from "../components/index";
 import { userApi } from "../api/user";
+import { useNavigate } from "react-router-dom";
 
 export const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
+  const navigate = useNavigate();
 
   const handleSignup = async () => {
     if (!email) {
@@ -32,9 +34,17 @@ export const SignupPage = () => {
         nickname,
         password,
       });
-      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/");
     } catch (error: any) {
-      if (error.response?.status === 409) {
+      if (error.response?.status === 400) {
+        const emailError = error.response?.data?.email;
+        if (emailError) {
+          alert(emailError);
+        } else {
+          alert("입력 정보를 확인해주세요.");
+        }
+      } else if (error.response?.status === 409) {
         alert("이미 사용 중인 닉네임입니다.");
       } else {
         alert("회원가입에 실패했습니다.");

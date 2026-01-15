@@ -18,5 +18,5 @@ export const userApi = {
 
   getMyPage: () => apiClient.get<MyPageResponse>("/users/my"),
 
-  getRankings: () => apiClient.get<RankingResponse>("/who-is-the-king"),
+  getRankings: () => apiClient.get<RankingResponse>("/users/who-is-the-king"),
 };

@@ -12,11 +12,13 @@ import {
 } from "./pages/index.ts";
 
 const Layout = () => {
+  const token = localStorage.getItem("access_token");
+  const isAuth = token !== null && token !== "undefined" && token !== "";
   return (
     <>
       <div className="relative flex flex-col min-h-screen">
         <div className="z-20 absolute top-0 left-0">
-          <Header isAuth={true} />
+          <Header isAuth={isAuth} />
         </div>
 
         <Outlet />

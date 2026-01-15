@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { AuthInput, AuthButton } from "../components/index";
 import { userApi } from "../api/user";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     if (!email) {
@@ -21,7 +23,8 @@ export const LoginPage = () => {
         email: email,
         password: password,
       });
-      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/");
     } catch (error: any) {
       console.log(error.message);
     }

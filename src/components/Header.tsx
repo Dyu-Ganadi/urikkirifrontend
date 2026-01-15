@@ -16,9 +16,21 @@ export const Header = ({ isAuth }: Prop) => {
   };
 
   const handleLogout = async () => {
-    await userApi.logout();
-    localStorage.removeItem("accessToken");
+    try {
+      await userApi.logout();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      localStorage.removeItem("access_token");
+      navigate("/login");
+    }
   };
+
+  const handleNavigate = (path: string) => {
+    setClickProfile(false);
+    navigate(path);
+  };
+
   return (
     <div className="w-screen pl-10 pr-14 py-[19px] bg-white border-b border-b-mono-4 flex flex-row justify-between items-center">
       <h1 className="text-main-1 text-4xl" onClick={() => navigate("/")}>
@@ -35,29 +47,25 @@ export const Header = ({ isAuth }: Prop) => {
           {clickProfile && (
             <div className="absolute right-24 top-16 w-[260px] rounded-[20px] border border-mono-3 overflow-hidden bg-white flex flex-col">
               <div
-                onClick={() => {
-                  navigate("/mypage");
-                  handleClick();
-                }}
-                className="flex justify-center py-5 text-[25px] border-b border-mono-3"
+                onClick={() => handleNavigate("/mypage")}
+                className="flex justify-center py-5 text-[25px] border-b border-mono-3 cursor-pointer hover:bg-mono-1"
               >
                 마이페이지
               </div>
+
               <div
-                onClick={() => {
-                  navigate("/ranking");
-                  handleClick();
-                }}
-                className="flex justify-center py-5 text-[25px] border-b border-mono-3"
+                onClick={() => handleNavigate("/ranking")}
+                className="flex justify-center py-5 text-[25px] border-b border-mono-3 cursor-pointer hover:bg-mono-1"
               >
                 랭킹페이지
               </div>
+
               <div
                 onClick={() => {
+                  setClickProfile(false);
                   handleLogout();
-                  handleClick();
                 }}
-                className="flex flex-row gap-2 justify-center py-5 text-[25px] text-system-error"
+                className="flex flex-row gap-2 justify-center py-5 text-[25px] text-system-error cursor-pointer hover:bg-mono-1"
               >
                 로그아웃
                 <img src={exit} />
