@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { add_game } from "../assets/icon/index";
 import { useNavigate } from "react-router-dom";
+import { useWebSocketContext } from "../context/WebSocketContext";
 
 interface Prop {
   isAuth: boolean;
@@ -7,6 +9,8 @@ interface Prop {
 
 export const LoginButton = ({ isAuth }: Prop) => {
   const navigate = useNavigate();
+  const { connect, isConnected } = useWebSocketContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTopClick = () => {
     if (isAuth) {
@@ -16,13 +20,35 @@ export const LoginButton = ({ isAuth }: Prop) => {
     }
   };
 
-  const handleBottomClick = () => {
+  const handleBottomClick = async () => {
     if (isAuth) {
-      navigate("/wait-room?action=create");
+      setIsLoading(true);
+
+      const [connected] = await Promise.all([
+        isConnected ? Promise.resolve(true) : connect(),
+        new Promise((resolve) => setTimeout(resolve, 1000)),
+      ]);
+
+      setIsLoading(false);
+
+      if (connected) {
+        navigate("/wait-room?action=create");
+      } else {
+        alert("연결에 실패했습니다. 다시 시도해주세요.");
+      }
     } else {
       navigate("/signup");
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 flex justify-center items-center bg-[#FFFBEF]">
+        <div className="text-3xl">로딩 중...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-[450px] flex flex-col rounded-[20px] border-2 border-mono-4 overflow-hidden shadow-xl">
       <div className="w-full h-[218px] flex flex-col items-center justify-center">
