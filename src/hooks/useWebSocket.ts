@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import type { WSMessage } from "../api/websocket.types";
 
 export const useWebSocket = () => {
@@ -49,14 +49,14 @@ export const useWebSocket = () => {
     };
   }, []);
 
-  const sendMessage = (message: any) => {
+  const sendMessage = useCallback((message: any) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       console.log("메시지 전송:", message);
       wsRef.current.send(JSON.stringify(message));
     } else {
       console.error("WebSocket이 열려있지 않습니다");
     }
-  };
+  }, []);
 
   return { isConnected, lastMessage, sendMessage };
 };

@@ -10,6 +10,7 @@ export const WaitingRoom = () => {
   const [searchParams] = useSearchParams();
   const [roomCode, setRoomCode] = useState<string | null>(null);
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { isConnected, lastMessage, sendMessage } = useWebSocket();
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export const WaitingRoom = () => {
     const savedRoomCode = localStorage.getItem('currentRoomCode');
     if (savedRoomCode) {
       console.log('저장된 방 코드로 재입장:', savedRoomCode);
+      setIsLoading(true);
       sendMessage({ type: "JOIN_ROOM", roomCode: savedRoomCode });
       return;
     }
@@ -41,9 +43,11 @@ export const WaitingRoom = () => {
 
     if (action === "create") {
       console.log('create_room 메시지 전송 시도');
+      setIsLoading(true);
       sendMessage({ type: "CREATE_ROOM" });
     } else if (code) {
       console.log('join_room 메시지 전송 시도');
+      setIsLoading(true);
       sendMessage({ type: "JOIN_ROOM", roomCode: code });
     }
   }, [isConnected, searchParams, roomCode]);
@@ -56,8 +60,11 @@ export const WaitingRoom = () => {
     switch (lastMessage.type) {
       case "ROOM_CREATED":
         console.log('방 생성 성공:', lastMessage.roomCode);
+        console.log('내 정보:', lastMessage.data);
         setRoomCode(lastMessage.roomCode);
+        setParticipants(lastMessage.data ? [lastMessage.data] : []);
         localStorage.setItem('currentRoomCode', lastMessage.roomCode);
+        setIsLoading(false);
         break;
 
       case "ROOM_JOINED":
@@ -65,11 +72,30 @@ export const WaitingRoom = () => {
         setRoomCode(lastMessage.roomCode);
         setParticipants(lastMessage.data || []);
         localStorage.setItem('currentRoomCode', lastMessage.roomCode);
+        setIsLoading(false);
         break;
 
       case "USER_JOINED":
-        console.log('새 참가자:', lastMessage.data);
+        console.log('새 참가자 입장:', lastMessage.data);
         setParticipants(prev => [...prev, lastMessage.data]);
+        break;
+
+      case "ROOM_EXIT":
+        console.log('ROOM_EXIT 메시지:', lastMessage);
+        
+        if (lastMessage.message?.includes("Successfully")) {
+          console.log('방 나가기 성공');
+          setIsLoading(false);
+          setRoomCode(null);
+          setParticipants([]);
+          localStorage.removeItem('currentRoomCode');
+          navigate("/", { replace: true });
+        } else if (lastMessage.data) {
+          console.log('다른 참가자 퇴장:', lastMessage.data.nickname);
+          setParticipants(prev => 
+            prev.filter(p => p.userId !== lastMessage.data?.userId)
+          );
+        }
         break;
 
       case "GAME_START":
@@ -80,13 +106,10 @@ export const WaitingRoom = () => {
 
       case "ERROR":
         console.error('에러:', lastMessage.message);
+        setIsLoading(false);
         
         if (lastMessage.message === "User is Already in This Room") {
-          console.log('이미 방에 있음, 그대로 유지');
-          const savedRoomCode = localStorage.getItem('currentRoomCode');
-          if (savedRoomCode) {
-            setRoomCode(savedRoomCode);
-          }
+          console.log('이미 방에 있음 (재입장 시도 실패), 그대로 유지');
           return;
         }
         
@@ -105,9 +128,27 @@ export const WaitingRoom = () => {
   };
 
   const handleExit = () => {
-    localStorage.removeItem('currentRoomCode');
-    navigate("/");
+    const confirmed = window.confirm("정말 방에서 나가시겠습니까?");
+    
+    if (!confirmed) return;
+
+    if (roomCode) {
+      console.log('ROOM_EXIT 메시지 전송:', roomCode);
+      setIsLoading(true);
+      sendMessage({ type: "ROOM_EXIT", roomCode });
+    } else {
+      localStorage.removeItem('currentRoomCode');
+      navigate("/");
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[#FFFBEF]">
+        <div className="text-3xl">로딩 중...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[#FFFBEF]">
@@ -121,7 +162,8 @@ export const WaitingRoom = () => {
 
         <button
           onClick={handleExit}
-          className="w-[280px] h-[80px] flex justify-center items-center bg-system-error text-3xl text-white gap-[10px] rounded-[20px]"
+          disabled={isLoading}
+          className="w-[280px] h-[80px] flex justify-center items-center bg-system-error text-3xl text-white gap-[10px] rounded-[20px] disabled:opacity-50"
         >
           탈출하기
           <img src={exit_white} />

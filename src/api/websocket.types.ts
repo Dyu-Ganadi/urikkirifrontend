@@ -5,6 +5,7 @@ export type WebSocketMessageType =
   | "JOIN_ROOM"
   | "ROOM_JOINED"
   | "USER_JOINED"
+  | "ROOM_EXIT"
   | "GAME_START"
   | "ERROR";
 
@@ -20,6 +21,7 @@ export interface CreateRoomMessage {
 export interface RoomCreatedMessage {
   type: "ROOM_CREATED";
   roomCode: string;
+  data: Participant;
   message: string;
 }
 
@@ -61,6 +63,22 @@ export interface GameStartMessage {
   message: string;
 }
 
+export interface RoomExitMessage {
+  type: "ROOM_EXIT";
+  roomCode: string;
+}
+
+export interface RoomExitResponse {
+  type: "ROOM_EXIT";
+  roomCode: string;
+  data?: {
+    userId: number;
+    nickname: string;
+    remainingCount: number;
+  };
+  message: string;
+}
+
 export interface ErrorMessage {
   type: "ERROR";
   message: string;
@@ -76,5 +94,6 @@ export type WSMessage =
   | RoomCreatedMessage
   | RoomJoinedMessage
   | UserJoinedMessage
+  | RoomExitResponse
   | GameStartMessage
   | ErrorMessage;

@@ -8,6 +8,20 @@ export const EnterRoom = () => {
 
   const isDisabled = key.trim().length === 0;
 
+  const handleEnterRoom = () => {
+    if (key.trim().length === 6) {
+      navigate(`/wait-room?roomCode=${key.trim()}`);
+    } else {
+      alert("6자리 방 코드를 입력해주세요");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !isDisabled) {
+      handleEnterRoom();
+    }
+  };
+
   return (
     <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[#FFFBEF]">
       <div className="flex flex-col items-center gap-[60px] text-6xl">
@@ -18,11 +32,14 @@ export const EnterRoom = () => {
             <input
               value={key}
               onChange={(e) => setKey(e.target.value)}
+              onKeyPress={handleKeyPress}
+              maxLength={6}
+              placeholder="6자리 코드"
               className="w-full h-full bg-none border-none outline-none text-2xl"
             />
           </div>
           <button
-            onClick={() => navigate("/wait-room")}
+            onClick={handleEnterRoom}
             disabled={isDisabled}
             className={`w-[146px] h-[70px] text-2xl rounded-[10px] transition
               ${

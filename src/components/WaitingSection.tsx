@@ -13,11 +13,13 @@ interface WaitingSectionProps {
 export const WaitingSection = ({ participants }: WaitingSectionProps) => {
   const slots = Array(4).fill(null);
   
-  participants.forEach((participant, index) => {
-    if (index < 4) {
-      slots[index] = participant;
-    }
-  });
+  if (Array.isArray(participants)) {
+    participants.forEach((participant, index) => {
+      if (index < 4) {
+        slots[index] = participant;
+      }
+    });
+  }
 
   return (
     <div className="flex flex-row gap-20">
