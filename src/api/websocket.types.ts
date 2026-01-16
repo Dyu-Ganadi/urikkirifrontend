@@ -18,22 +18,23 @@ export interface CreateRoomMessage {
   type: "CREATE_ROOM";
 }
 
+export interface Participant {
+  user_id: number;
+  nickname: string;
+  level: number;
+  is_examiner?: boolean;
+}
+
 export interface RoomCreatedMessage {
   type: "ROOM_CREATED";
   roomCode: string;
-  data: Participant;
+  data: Participant[];
   message: string;
 }
 
 export interface JoinRoomMessage {
   type: "JOIN_ROOM";
   roomCode: string;
-}
-
-export interface Participant {
-  userId: number;
-  nickname: string;
-  level: number;
 }
 
 export interface RoomJoinedMessage {
@@ -46,7 +47,7 @@ export interface RoomJoinedMessage {
 export interface UserJoinedMessage {
   type: "USER_JOINED";
   roomCode: string;
-  data: Participant;
+  data: Participant[];
   message: string;
 }
 
@@ -72,9 +73,9 @@ export interface RoomExitResponse {
   type: "ROOM_EXIT";
   roomCode: string;
   data?: {
-    userId: number;
+    user_id: number;
     nickname: string;
-    remainingCount: number;
+    remaining_count: number;
   };
   message: string;
 }
