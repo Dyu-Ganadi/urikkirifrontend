@@ -1,9 +1,10 @@
 import { WaitingCard } from "./index";
 
 interface Participant {
-  userId: number;
+  user_id: number;
   nickname: string;
   level: number;
+  is_examiner?: boolean;
 }
 
 interface WaitingSectionProps {

@@ -1,16 +1,32 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { key_icon } from "../assets/icon/index";
+import { useWebSocketContext } from "../context/WebSocketContext";
 
 export const EnterRoom = () => {
   const navigate = useNavigate();
   const [key, setKey] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { connect, isConnected } = useWebSocketContext();
 
   const isDisabled = key.trim().length === 0;
 
-  const handleEnterRoom = () => {
+  const handleEnterRoom = async () => {
     if (key.trim().length === 6) {
-      navigate(`/wait-room?roomCode=${key.trim()}`);
+      setIsLoading(true);
+
+      const [connected] = await Promise.all([
+        isConnected ? Promise.resolve(true) : connect(),
+        new Promise((resolve) => setTimeout(resolve, 1000)),
+      ]);
+
+      setIsLoading(false);
+
+      if (connected) {
+        navigate(`/wait-room?roomCode=${key.trim()}`);
+      } else {
+        alert("연결에 실패했습니다. 다시 시도해주세요.");
+      }
     } else {
       alert("6자리 방 코드를 입력해주세요");
     }
@@ -21,6 +37,14 @@ export const EnterRoom = () => {
       handleEnterRoom();
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[#FFFBEF]">
+        <div className="text-3xl">로딩 중...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[#FFFBEF]">
