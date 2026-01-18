@@ -12,6 +12,8 @@ export const WaitingRoom = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [canFinishLoading, setCanFinishLoading] = useState(false);
+  const [isGameStarting, setIsGameStarting] = useState(false);
+  const [countdown, setCountdown] = useState(3);
   const { isConnected, lastMessage, sendMessage } = useWebSocketContext();
 
   useEffect(() => {
@@ -108,10 +110,9 @@ export const WaitingRoom = () => {
         }
         break;
 
-      case "GAME_START":
-        console.log("게임 시작! 참가자:", lastMessage.data?.participants);
-        localStorage.removeItem("currentRoomCode");
-        navigate("/game");
+      case "GAME_READY":
+        console.log("게임 준비 완료! 4명 모임:", lastMessage.data?.participants);
+        setIsGameStarting(true);
         break;
 
       case "ERROR":
@@ -183,10 +184,45 @@ export const WaitingRoom = () => {
     };
   }, [isConnected, sendMessage]);
 
+  useEffect(() => {
+    if (!isGameStarting) return;
+
+    if (countdown === 0) {
+      localStorage.setItem("gameRoomCode", roomCode || "");
+      localStorage.setItem("gameToken", localStorage.getItem("access_token") || "");
+      localStorage.removeItem("currentRoomCode");
+      navigate("/game");
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [isGameStarting, countdown, roomCode, navigate]);
+
   if (isLoading) {
     return (
       <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[#FFFBEF]">
         <div className="text-3xl">로딩 중...</div>
+      </div>
+    );
+  }
+
+  if (isGameStarting) {
+    return (
+      <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[#FFFBEF]">
+        <div className="flex flex-col items-center gap-12">
+          <div className="text-2xl text-gray-700">3초 후 게임이 시작됩니다</div>
+          <div 
+            key={countdown}
+            className="text-9xl font-bold text-main-2 animate-[bounce_0.8s_ease-in-out]"
+          >
+            {countdown}
+          </div>
+          <div className="text-4xl font-bold text-main-2">준비하세요!</div>
+        </div>
       </div>
     );
   }

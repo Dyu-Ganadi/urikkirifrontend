@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, Outlet, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  useLocation,
+} from "react-router-dom";
 import { Header } from "./components/index.ts";
 import {
   LandingPage,
@@ -18,7 +24,8 @@ const Layout = () => {
   const location = useLocation();
 
   // 대기 화면에서는 헤더 숨기기
-  const hideHeader = location.pathname === "/wait-room";
+  const hideHeader =
+    location.pathname === "/wait-room" || location.pathname === "/game";
 
   return (
     <>
