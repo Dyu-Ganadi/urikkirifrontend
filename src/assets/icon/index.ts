@@ -1,0 +1,15 @@
+export { default as add_game } from "./add_game.svg";
+export { default as banana_icon } from "./banana-icon.svg";
+export { default as copy_icon } from "./copy_icon.svg";
+export { default as email_icon } from "./email-icon.svg";
+export { default as exit_white } from "./exit_white.svg";
+export { default as exit } from "./exit.svg";
+export { default as eye_closed } from "./eye-closed.svg";
+export { default as eye_open } from "./eye-open.svg";
+export { default as first_medal } from "./first_medal.svg";
+export { default as key_icon } from "./key.svg";
+export { default as lock_icon } from "./lock-icon.svg";
+export { default as person_icon_black } from "./person-icon-black.svg";
+export { default as person_icon_white } from "./person-icon-white.svg";
+export { default as second_medal } from "./second_medal.svg";
+export { default as third_medal } from "./third_medal.svg";
