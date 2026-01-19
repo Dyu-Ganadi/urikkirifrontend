@@ -1,8 +1,11 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
   "headers": [
@@ -30,17 +33,6 @@
         {
           "key": "Content-Type",
           "value": "application/wasm"
-        }
-      ]
-    },
-    {
-      "routes": [
-        {
-          "handle": "filesystem"
-        },
-        {
-          "src": "/(.*)",
-          "dest": "/index.html"
         }
       ]
     }
