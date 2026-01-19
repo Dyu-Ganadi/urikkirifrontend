@@ -48,14 +48,14 @@ export const Header = ({ isAuth }: Prop) => {
             <div className="absolute right-24 top-16 w-[260px] rounded-[20px] border border-mono-3 overflow-hidden bg-white flex flex-col">
               <div
                 onClick={() => handleNavigate("/mypage")}
-                className="flex justify-center py-5 text-[25px] border-b border-mono-3 cursor-pointer hover:bg-mono-1"
+                className="flex justify-center py-5 text-[25px] border-b border-mono-3 cursor-pointer hover:bg-main-5 hover:text-main-2"
               >
                 마이페이지
               </div>
 
               <div
                 onClick={() => handleNavigate("/ranking")}
-                className="flex justify-center py-5 text-[25px] border-b border-mono-3 cursor-pointer hover:bg-mono-1"
+                className="flex justify-center py-5 text-[25px] border-b border-mono-3 cursor-pointer hover:bg-main-5 hover:text-main-2"
               >
                 랭킹페이지
               </div>
@@ -65,7 +65,7 @@ export const Header = ({ isAuth }: Prop) => {
                   setClickProfile(false);
                   handleLogout();
                 }}
-                className="flex flex-row gap-2 justify-center py-5 text-[25px] text-system-error cursor-pointer hover:bg-mono-1"
+                className="flex flex-row gap-2 justify-center py-5 text-[25px] text-system-error cursor-pointer  hover:bg-main-5"
               >
                 로그아웃
                 <img src={exit} />
