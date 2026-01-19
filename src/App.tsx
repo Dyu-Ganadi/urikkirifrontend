@@ -56,7 +56,6 @@ function App() {
             <Route path="/ranking" element={<RankingPage />} />
             <Route path="/enter-room" element={<EnterRoom />} />
             <Route path="/wait-room" element={<WaitingRoom />} />
-            <Route path="/*" element={<LandingPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
