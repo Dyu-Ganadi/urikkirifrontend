@@ -32,6 +32,17 @@
           "value": "application/wasm"
         }
       ]
+    },
+    {
+      "routes": [
+        {
+          "handle": "filesystem"
+        },
+        {
+          "src": "/(.*)",
+          "dest": "/index.html"
+        }
+      ]
     }
   ]
 }
