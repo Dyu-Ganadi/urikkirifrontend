@@ -30,7 +30,7 @@ export const LevelChart = ({ bananaxp }: Props) => {
           dataKey="value"
           stroke="none"
         >
-          {data.map((entry, index) => (
+          {data.map((_entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index]} />
           ))}
         </Pie>
