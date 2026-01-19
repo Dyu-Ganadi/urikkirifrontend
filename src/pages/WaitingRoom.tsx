@@ -89,14 +89,14 @@ export const WaitingRoom = () => {
         console.log("참가자 입장/업데이트 (USER_JOINED)");
         console.log("방 코드:", lastMessage.roomCode);
         console.log("전체 목록:", lastMessage.data);
-        
+
         if (!roomCode && lastMessage.roomCode) {
           console.log("처음 입장 - roomCode 설정 및 localStorage 저장");
           setRoomCode(lastMessage.roomCode);
           localStorage.setItem("currentRoomCode", lastMessage.roomCode);
           setCanFinishLoading(true);
         }
-        
+
         setParticipants(lastMessage.data || []);
         break;
 
@@ -161,14 +161,11 @@ export const WaitingRoom = () => {
 
     if (roomCode) {
       console.log("ROOM_EXIT 메시지 전송:", roomCode);
-      setIsLoading(true);
-      setCanFinishLoading(false);
-      setTimeout(() => setCanFinishLoading(true), 1000);
       sendMessage({ type: "ROOM_EXIT", roomCode });
-    } else {
-      localStorage.removeItem("currentRoomCode");
-      navigate("/");
     }
+
+    localStorage.removeItem("currentRoomCode");
+    navigate("/");
   };
 
   useEffect(() => {
