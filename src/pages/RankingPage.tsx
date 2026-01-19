@@ -20,7 +20,7 @@ export const RankingPage = () => {
         setRankings(rankingsRes.data.rankings);
 
         const rank = rankingsRes.data.rankings.findIndex(
-          (user) => user.nickname === myPageRes.data.nickname
+          (user) => user.nickname === myPageRes.data.nickname,
         );
 
         setMyRank(rank !== -1 ? rank + 1 : null);
@@ -55,7 +55,7 @@ export const RankingPage = () => {
             </div>
           </div>
 
-          <div className="h-[830px] overflow-y-scroll relative">
+          <div className="h-[830px] overflow-y-scroll scrollbar-hide relative">
             <RankingChart ranking={rankings} />
           </div>
         </div>

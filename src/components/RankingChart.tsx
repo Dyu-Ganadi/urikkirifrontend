@@ -7,7 +7,7 @@ interface Prop {
 
 export const RankingChart = ({ ranking }: Prop) => {
   return (
-    <div className="flex flex-col gap-6 justify-start overflow-y-scroll">
+    <div className="flex flex-col gap-6 justify-start overflow-y-scroll scrollbar-hide">
       {/* 위에 바 */}
       <div className="flex flex-row text-xl bg-[rgb(255_255_255/80%)] rounded-[20px] overflow-hidden">
         <div className="w-[120px] flex justify-center items-center py-3">
