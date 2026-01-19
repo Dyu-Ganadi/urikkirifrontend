@@ -1,9 +1,34 @@
 import { useState } from "react";
 import { AuthInput, AuthButton } from "../components/index";
+import { userApi } from "../api/user";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    if (!email) {
+      alert("이메일을 입력하세요.");
+      return;
+    }
+    if (!password) {
+      alert("비밀번호를 입력하세요.");
+      return;
+    }
+
+    try {
+      const { data } = await userApi.login({
+        email: email,
+        password: password,
+      });
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/");
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[url('/public/login-bg.png')] bg-cover bg-center">
@@ -21,7 +46,7 @@ export const LoginPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <AuthButton text="로그인" />
+        <AuthButton onClick={handleLogin} text="로그인" />
       </div>
     </div>
   );

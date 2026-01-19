@@ -2,6 +2,9 @@ import monkey1 from "../assets/images/monkey1.png";
 import { LoginButton } from "../components/index";
 
 export const LandingPage = () => {
+  const token = localStorage.getItem("access_token");
+  const isAuth = token !== null && token !== "undefined" && token !== "";
+
   return (
     <div className="flex-1 overflow-hidden flex flex-row">
       <div className="w-1/2 flex flex-col justify-center items-center gap-10">
@@ -16,7 +19,7 @@ export const LandingPage = () => {
       </div>
 
       <div className="w-1/2 flex flex-col justify-center items-center">
-        <LoginButton isAuth={true} />
+        <LoginButton isAuth={isAuth} />
       </div>
     </div>
   );

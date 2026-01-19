@@ -11,16 +11,9 @@ interface Prop {
   type: "text" | "password";
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onNicknameCheck?: () => void; // 별명 중복확인
 }
 
-export const AuthInput = ({
-  label,
-  type,
-  value,
-  onChange,
-  onNicknameCheck,
-}: Prop) => {
+export const AuthInput = ({ label, type, value, onChange }: Prop) => {
   const [isLocked, setIsLocked] = useState(true);
 
   const togglePassword = () => {
@@ -28,7 +21,6 @@ export const AuthInput = ({
   };
 
   const isPasswordField = type === "password";
-  const isNicknameField = label === "별명"; // 별명 타입인지 체크
 
   const currentInputType = isPasswordField
     ? isLocked
@@ -56,15 +48,6 @@ export const AuthInput = ({
           onClick={togglePassword}
           className="cursor-pointer select-none"
         />
-      )}
-
-      {isNicknameField && (
-        <button
-          onClick={onNicknameCheck}
-          className="absolute right-0 h-full w-[124px] flex justify-center items-center whitespace-nowrap bg-main-1 text-white text-xl font-pretendard"
-        >
-          중복확인
-        </button>
       )}
     </div>
   );

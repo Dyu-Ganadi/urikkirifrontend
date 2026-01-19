@@ -1,8 +1,8 @@
-import type { RankingItem } from "../pages/RankingPage";
+import type { RankingUser } from "../api/types";
 import { RankBar } from "./index";
 
 interface Prop {
-  ranking: RankingItem[];
+  ranking: RankingUser[];
 }
 
 export const RankingChart = ({ ranking }: Prop) => {
@@ -26,7 +26,7 @@ export const RankingChart = ({ ranking }: Prop) => {
 
       <div className="flex flex-col gap-3">
         {ranking.map((rank, i) => (
-          <RankBar key={rank.id} rank={rank} idx={i} />
+          <RankBar key={i} rank={rank} idx={i} />
         ))}
       </div>
     </div>
