@@ -161,14 +161,11 @@ export const WaitingRoom = () => {
 
     if (roomCode) {
       console.log("ROOM_EXIT 메시지 전송:", roomCode);
-      setIsLoading(true);
-      setCanFinishLoading(false);
-      setTimeout(() => setCanFinishLoading(true), 1000);
       sendMessage({ type: "ROOM_EXIT", roomCode });
-    } else {
-      localStorage.removeItem("currentRoomCode");
-      navigate("/");
     }
+
+    localStorage.removeItem("currentRoomCode");
+    navigate("/");
   };
 
   useEffect(() => {
