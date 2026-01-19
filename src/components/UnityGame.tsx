@@ -17,8 +17,8 @@ export const UnityGame = ({ token, roomCode }: UnityGameProps) => {
   useEffect(() => {
     if (isLoaded) {
       console.log("Unity 로드 완료, 데이터 전송:", { token, roomCode });
-      sendMessage("GameManager", "SetToken", token);
       sendMessage("GameManager", "SetRoomCode", roomCode);
+      sendMessage("Networking", "SetAccessToken", token);
     }
   }, [isLoaded, token, roomCode, sendMessage]);
 

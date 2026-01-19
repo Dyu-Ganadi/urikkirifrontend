@@ -48,10 +48,16 @@ export const WaitingRoom = () => {
 
     if (action === "create") {
       console.log("create_room 메시지 전송 시도");
+      setIsLoading(true);
+      setCanFinishLoading(false);
+      setTimeout(() => setCanFinishLoading(true), 1000);
       sendMessage({ type: "CREATE_ROOM" });
       setSearchParams({});
     } else if (code) {
-      console.log("join_room 메시지 전송 시도");
+      console.log("join_room 메시지 전송 시도, 코드:", code);
+      setIsLoading(true);
+      setCanFinishLoading(false);
+      setTimeout(() => setCanFinishLoading(true), 1000);
       sendMessage({ type: "JOIN_ROOM", roomCode: code });
       setSearchParams({});
     }
@@ -79,16 +85,18 @@ export const WaitingRoom = () => {
         setCanFinishLoading(true);
         break;
 
-      case "ROOM_JOINED":
-        console.log("방 참가 성공, 전체 참가자:", lastMessage.data);
-        setRoomCode(lastMessage.roomCode);
-        setParticipants(lastMessage.data || []);
-        localStorage.setItem("currentRoomCode", lastMessage.roomCode);
-        setCanFinishLoading(true);
-        break;
-
       case "USER_JOINED":
-        console.log("새 참가자 입장, 전체 목록:", lastMessage.data);
+        console.log("참가자 입장/업데이트 (USER_JOINED)");
+        console.log("방 코드:", lastMessage.roomCode);
+        console.log("전체 목록:", lastMessage.data);
+        
+        if (!roomCode && lastMessage.roomCode) {
+          console.log("처음 입장 - roomCode 설정 및 localStorage 저장");
+          setRoomCode(lastMessage.roomCode);
+          localStorage.setItem("currentRoomCode", lastMessage.roomCode);
+          setCanFinishLoading(true);
+        }
+        
         setParticipants(lastMessage.data || []);
         break;
 
@@ -105,13 +113,16 @@ export const WaitingRoom = () => {
         } else if (lastMessage.data) {
           console.log("다른 참가자 퇴장:", lastMessage.data.nickname);
           setParticipants((prev) =>
-            prev.filter((p) => p.user_id !== lastMessage.data?.user_id)
+            prev.filter((p) => p.user_id !== lastMessage.data?.user_id),
           );
         }
         break;
 
       case "GAME_READY":
-        console.log("게임 준비 완료! 4명 모임:", lastMessage.data?.participants);
+        console.log(
+          "게임 준비 완료! 4명 모임:",
+          lastMessage.data?.participants,
+        );
         setIsGameStarting(true);
         break;
 
@@ -164,7 +175,10 @@ export const WaitingRoom = () => {
     const handleBeforeUnload = () => {
       const currentRoomCode = localStorage.getItem("currentRoomCode");
       if (currentRoomCode) {
-        console.log("브라우저 닫기/새로고침 시 localStorage 정리:", currentRoomCode);
+        console.log(
+          "브라우저 닫기/새로고침 시 localStorage 정리:",
+          currentRoomCode,
+        );
       }
     };
 
@@ -175,7 +189,10 @@ export const WaitingRoom = () => {
 
       const currentRoomCode = localStorage.getItem("currentRoomCode");
       if (currentRoomCode) {
-        console.log("페이지 이탈 시 ROOM_EXIT 전송 및 localStorage 정리:", currentRoomCode);
+        console.log(
+          "페이지 이탈 시 ROOM_EXIT 전송 및 localStorage 정리:",
+          currentRoomCode,
+        );
         if (isConnected) {
           sendMessage({ type: "ROOM_EXIT", roomCode: currentRoomCode });
         }
@@ -188,8 +205,24 @@ export const WaitingRoom = () => {
     if (!isGameStarting) return;
 
     if (countdown === 0) {
+      const token = localStorage.getItem("access_token");
+      console.log("========== 게임 시작 데이터 저장 ==========");
+      console.log("roomCode:", roomCode);
+      console.log("token:", token);
+
+      if (!token) {
+        console.error("access_token이 없습니다!");
+        alert("로그인 정보가 없습니다. 다시 로그인해주세요.");
+        navigate("/");
+        return;
+      }
+
       localStorage.setItem("gameRoomCode", roomCode || "");
-      localStorage.setItem("gameToken", localStorage.getItem("access_token") || "");
+      localStorage.setItem("gameToken", token);
+      console.log("localStorage에 저장 완료");
+      console.log("- gameRoomCode:", roomCode);
+      console.log("- gameToken:", token?.substring(0, 20) + "...");
+
       localStorage.removeItem("currentRoomCode");
       navigate("/game");
       return;
@@ -215,7 +248,7 @@ export const WaitingRoom = () => {
       <div className="w-screen min-h-screen overflow-hidden flex justify-center items-center bg-[#FFFBEF]">
         <div className="flex flex-col items-center gap-12">
           <div className="text-2xl text-gray-700">3초 후 게임이 시작됩니다</div>
-          <div 
+          <div
             key={countdown}
             className="text-9xl font-bold text-main-2 animate-[bounce_0.8s_ease-in-out]"
           >

@@ -3,7 +3,6 @@ export type WebSocketMessageType =
   | "CREATE_ROOM"
   | "ROOM_CREATED"
   | "JOIN_ROOM"
-  | "ROOM_JOINED"
   | "USER_JOINED"
   | "ROOM_EXIT"
   | "GAME_READY"
@@ -36,13 +35,6 @@ export interface RoomCreatedMessage {
 export interface JoinRoomMessage {
   type: "JOIN_ROOM";
   roomCode: string;
-}
-
-export interface RoomJoinedMessage {
-  type: "ROOM_JOINED";
-  roomCode: string;
-  data: Participant[];
-  message: string;
 }
 
 export interface UserJoinedMessage {
@@ -104,7 +96,6 @@ export interface ConnectedMessage {
 export type WSMessage =
   | ConnectedMessage
   | RoomCreatedMessage
-  | RoomJoinedMessage
   | UserJoinedMessage
   | RoomExitResponse
   | GameReadyMessage
