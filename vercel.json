@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "/Build/(.*)",
+      "dest": "/Build/$1"
+    },
+    {
       "handle": "filesystem"
     },
     {
