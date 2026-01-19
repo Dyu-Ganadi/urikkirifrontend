@@ -1,12 +1,27 @@
 import { Unity, useUnityContext } from "react-unity-webgl";
+import { useEffect } from "react";
 
-export const UnityGame = () => {
-  const { unityProvider } = useUnityContext({
+interface UnityGameProps {
+  token: string;
+  roomCode: string;
+}
+
+export const UnityGame = ({ token, roomCode }: UnityGameProps) => {
+  const { unityProvider, sendMessage, isLoaded } = useUnityContext({
     loaderUrl: "Build/Builds.loader.js",
     dataUrl: "Build/Builds.data.br",
     frameworkUrl: "Build/Builds.framework.js.br",
     codeUrl: "Build/Builds.wasm.br",
   });
+
+  useEffect(() => {
+    if (isLoaded) {
+      console.log("Unity 로드 완료, 데이터 전송:", { token, roomCode });
+      sendMessage("GameManager", "SetToken", token);
+      sendMessage("GameManager", "SetRoomCode", roomCode);
+    }
+  }, [isLoaded, token, roomCode, sendMessage]);
+
   return (
     <>
       <Unity
