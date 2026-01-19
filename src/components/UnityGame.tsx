@@ -34,22 +34,17 @@ export const UnityGame = ({ token, roomCode }: UnityGameProps) => {
     }
   }, [isLoaded, token, roomCode, sendMessage]);
 
-  if (!isLoaded) {
-    return (
-      <div className="w-full h-full flex flex-col justify-center items-center bg-gray-100">
-        <div className="text-2xl font-bold mb-4">게임 로딩 중...</div>
-        <div className="text-xl">{Math.round(loadingProgression * 100)}%</div>
-      </div>
-    );
-  }
-
   return (
     <>
       <Unity
-        className="w-full h-full"
+        className={"w-full h-full" + (!isLoaded ? " hidden" : "")}
         unityProvider={unityProvider}
         devicePixelRatio={devicePixelRatio}
       />
+      <div className={"w-full h-full flex flex-col justify-center items-center bg-gray-100" + (isLoaded ? " hidden" : "")}>
+        <div className="text-2xl font-bold mb-4">게임 로딩 중...</div>
+        <div className="text-xl">{Math.round(loadingProgression * 100)}%</div>
+      </div>
     </>
   );
 };
