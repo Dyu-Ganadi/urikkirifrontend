@@ -32,37 +32,17 @@ export const WaitingRoom = () => {
     }
 
     const savedRoomCode = localStorage.getItem("currentRoomCode");
-    const action = searchParams.get("action");
-    const code = searchParams.get("roomCode");
-
-    // 저장된 roomCode도 없고, query params도 없으면 잘못된 접근
-    if (!savedRoomCode && !action && !code) {
-      console.error("잘못된 접근 - 데이터 없음");
-      alert("잘못된 접근입니다. 메인 화면으로 돌아갑니다.");
-      navigate("/", { replace: true });
-      return;
-    }
-
     if (savedRoomCode) {
       console.log("저장된 방 코드로 재입장:", savedRoomCode);
       setIsLoading(true);
       setCanFinishLoading(false);
       setTimeout(() => setCanFinishLoading(true), 1000);
       sendMessage({ type: "JOIN_ROOM", roomCode: savedRoomCode });
-
-      // 5초 내에 응답 없으면 타임아웃 처리
-      const timeoutId = setTimeout(() => {
-        if (!roomCode) {
-          console.error("재입장 타임아웃");
-          alert("방 정보를 불러오는데 실패했습니다. 메인 화면으로 돌아갑니다.");
-          localStorage.removeItem("currentRoomCode");
-          navigate("/", { replace: true });
-        }
-      }, 5000);
-
-      return () => clearTimeout(timeoutId);
+      return;
     }
 
+    const action = searchParams.get("action");
+    const code = searchParams.get("roomCode");
     console.log("action:", action);
     console.log("code:", code);
 
@@ -81,7 +61,7 @@ export const WaitingRoom = () => {
       sendMessage({ type: "JOIN_ROOM", roomCode: code });
       setSearchParams({});
     }
-  }, [isConnected, searchParams, roomCode, sendMessage, setSearchParams, navigate]);
+  }, [isConnected, searchParams, roomCode, sendMessage, setSearchParams]);
 
   useEffect(() => {
     if (canFinishLoading && isLoading) {
@@ -149,7 +129,6 @@ export const WaitingRoom = () => {
       case "ERROR":
         console.error("에러:", lastMessage.message);
         setCanFinishLoading(true);
-        setIsLoading(false);
 
         if (lastMessage.message === "User is Already in This Room") {
           console.log("이미 방에 있음 (새로고침), localStorage에서 복구");
@@ -161,18 +140,9 @@ export const WaitingRoom = () => {
           return;
         }
 
-        let errorMsg = "오류가 발생했습니다.";
-        if (lastMessage.message?.includes("Room Not Found")) {
-          errorMsg = "존재하지 않는 방입니다.";
-        } else if (lastMessage.message?.includes("Room is Full")) {
-          errorMsg = "방이 가득 찼습니다.";
-        } else if (lastMessage.message) {
-          errorMsg = lastMessage.message;
-        }
-
-        alert(errorMsg + " 메인 화면으로 돌아갑니다.");
+        alert(lastMessage.message);
         localStorage.removeItem("currentRoomCode");
-        navigate("/", { replace: true });
+        navigate("/");
         break;
     }
   }, [lastMessage, navigate]);
@@ -195,7 +165,7 @@ export const WaitingRoom = () => {
     }
 
     localStorage.removeItem("currentRoomCode");
-    navigate("/", { replace: true });
+    navigate("/");
   };
 
   useEffect(() => {

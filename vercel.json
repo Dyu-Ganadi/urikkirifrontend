@@ -1,4 +1,15 @@
 {
+  "headers": [
+    {
+      "source": "/Build/*.br",
+      "headers": [
+        {
+          "key": "Content-Encoding",
+          "value": "br"
+        }
+      ]
+    }
+  ],
   "routes": [
     {
       "src": "/Build/(.*)",
