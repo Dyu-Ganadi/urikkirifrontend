@@ -31,3 +31,5 @@ export interface RankingUser {
 export interface RankingResponse {
   rankings: RankingUser[];
 }
+
+// 으아악
