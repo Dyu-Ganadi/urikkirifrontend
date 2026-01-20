@@ -9,9 +9,9 @@ interface UnityGameProps {
 export const UnityGame = ({ token, roomCode }: UnityGameProps) => {
   const { unityProvider, sendMessage, isLoaded, loadingProgression } = useUnityContext({
     loaderUrl: "Build/Builds.loader.js",
-    dataUrl: "Build/Builds.data.br",
-    frameworkUrl: "Build/Builds.framework.js.br",
-    codeUrl: "Build/Builds.wasm.br",
+    dataUrl: "Build/Builds.data.unityweb",
+    frameworkUrl: "Build/Builds.framework.js.unityweb",
+    codeUrl: "Build/Builds.wasm.unityweb",
   });
 
   useEffect(() => {
