@@ -11,15 +11,18 @@ export const GamePage = () => {
     console.log("========== GamePage useEffect ==========");
     const savedToken = localStorage.getItem("gameToken");
     const savedRoomCode = localStorage.getItem("gameRoomCode");
-    
+
     console.log("저장된 데이터 확인:");
     console.log("- gameToken:", savedToken ? savedToken.substring(0, 20) + "..." : "null");
     console.log("- gameRoomCode:", savedRoomCode);
 
     if (!savedToken || !savedRoomCode) {
-      console.error("게임 데이터가 없습니다. 대기실로 돌아갑니다.");
-      alert("잘못된 접근입니다.");
-      navigate("/");
+      console.error("게임 데이터가 없습니다. 메인 화면으로 돌아갑니다.");
+      alert("잘못된 접근입니다. 메인 화면으로 돌아갑니다.");
+      localStorage.removeItem("gameToken");
+      localStorage.removeItem("gameRoomCode");
+      localStorage.removeItem("currentRoomCode");
+      navigate("/", { replace: true });
       return;
     }
 
@@ -27,6 +30,16 @@ export const GamePage = () => {
     setToken(savedToken);
     setRoomCode(savedRoomCode);
   }, [navigate]);
+
+  // 페이지 이탈 시 게임 관련 localStorage 정리
+  useEffect(() => {
+    return () => {
+      console.log("GamePage 언마운트 - 게임 데이터 정리");
+      localStorage.removeItem("gameToken");
+      localStorage.removeItem("gameRoomCode");
+      // currentRoomCode는 유지 (WaitingRoom으로 돌아갈 수 있음)
+    };
+  }, []);
 
   if (!token || !roomCode) {
     console.log("토큰 또는 방코드 대기 중...", { token: !!token, roomCode: !!roomCode });
