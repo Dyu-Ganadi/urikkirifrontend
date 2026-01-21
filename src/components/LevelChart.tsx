@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const LevelChart = ({ bananaxp }: Props) => {
-  const progress = (bananaxp / 10) * 100;
+  const progress = ((bananaxp % 10) / 10) * 100;
   const remain = 100 - progress;
 
   const data = [
