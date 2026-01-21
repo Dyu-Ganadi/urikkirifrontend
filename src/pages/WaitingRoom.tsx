@@ -15,7 +15,7 @@ export const WaitingRoom = () => {
   const [canFinishLoading, setCanFinishLoading] = useState(false);
   const [isGameStarting, setIsGameStarting] = useState(false);
   const [countdown, setCountdown] = useState(3);
-  const { isConnected, lastMessage, sendMessage } = useWebSocketContext();
+  const { isConnected, lastMessage, sendMessage, disconnect } = useWebSocketContext();
   const isGameStartingRef = useRef(false);
 
   useEffect(() => {
@@ -112,6 +112,7 @@ export const WaitingRoom = () => {
           setParticipants([]);
           localStorage.removeItem("gameRoomCode");
           navigate("/", { replace: true });
+          disconnect();
         } else if (lastMessage.data) {
           console.log("다른 참가자 퇴장:", lastMessage.data.nickname);
           setParticipants((prev) =>
@@ -146,6 +147,7 @@ export const WaitingRoom = () => {
         Swal.fire({ icon: "error", title: "오류", text: lastMessage.message });
         localStorage.removeItem("gameRoomCode");
         navigate("/");
+        disconnect();
         break;
     }
   }, [lastMessage, navigate]);
