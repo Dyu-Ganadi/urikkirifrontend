@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { WaitingSection } from "../components/index";
 import { exit_white, copy_icon } from "../assets/icon/index";
 import { useWebSocketContext } from "../context/WebSocketContext";
@@ -16,6 +16,7 @@ export const WaitingRoom = () => {
   const [isGameStarting, setIsGameStarting] = useState(false);
   const [countdown, setCountdown] = useState(3);
   const { isConnected, lastMessage, sendMessage } = useWebSocketContext();
+  const isGameStartingRef = useRef(false);
 
   useEffect(() => {
     console.log("========== WaitingRoom useEffect ==========");
@@ -124,6 +125,7 @@ export const WaitingRoom = () => {
           "게임 준비 완료! 4명 모임:",
           lastMessage.data?.participants,
         );
+        isGameStartingRef.current = true;
         setIsGameStarting(true);
         break;
 
@@ -191,6 +193,12 @@ export const WaitingRoom = () => {
 
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
+
+      // 게임 시작 시에는 cleanup 하지 않음
+      if (isGameStartingRef.current) {
+        console.log("게임 시작 중이므로 ROOM_EXIT 및 localStorage 정리 건너뜀");
+        return;
+      }
 
       const savedGameRoomCode = localStorage.getItem("gameRoomCode");
       if (savedGameRoomCode) {
