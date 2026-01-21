@@ -27,26 +27,26 @@ export interface Participant {
 
 export interface RoomCreatedMessage {
   type: "ROOM_CREATED";
-  roomCode: string;
+  room_code: string;
   data: Participant[];
   message: string;
 }
 
 export interface JoinRoomMessage {
   type: "JOIN_ROOM";
-  roomCode: string;
+  room_code: string;
 }
 
 export interface UserJoinedMessage {
   type: "USER_JOINED";
-  roomCode: string;
+  room_code: string;
   data: Participant[];
   message: string;
 }
 
 export interface GameReadyMessage {
   type: "GAME_READY";
-  roomCode: string;
+  room_code: string;
   data: {
     participants: Participant[];
     message: string;
@@ -56,11 +56,11 @@ export interface GameReadyMessage {
 
 export interface GameStartMessage {
   type: "GAME_START";
-  roomCode: string;
+  room_code: string;
   data: {
     participants: Participant[];
     question: {
-      quizId: number;
+      quiz_id: number;
       content: string;
     };
   };
@@ -69,12 +69,12 @@ export interface GameStartMessage {
 
 export interface RoomExitMessage {
   type: "ROOM_EXIT";
-  roomCode: string;
+  room_code: string;
 }
 
 export interface RoomExitResponse {
   type: "ROOM_EXIT";
-  roomCode: string;
+  room_code: string;
   data?: {
     user_id: number;
     nickname: string;

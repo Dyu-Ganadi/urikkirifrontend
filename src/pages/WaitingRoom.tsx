@@ -38,7 +38,7 @@ export const WaitingRoom = () => {
       setIsLoading(true);
       setCanFinishLoading(false);
       setTimeout(() => setCanFinishLoading(true), 1000);
-      sendMessage({ type: "JOIN_ROOM", roomCode: savedRoomCode });
+      sendMessage({ type: "JOIN_ROOM", room_code: savedRoomCode });
       return;
     }
 
@@ -59,7 +59,7 @@ export const WaitingRoom = () => {
       setIsLoading(true);
       setCanFinishLoading(false);
       setTimeout(() => setCanFinishLoading(true), 1000);
-      sendMessage({ type: "JOIN_ROOM", roomCode: code });
+      sendMessage({ type: "JOIN_ROOM", room_code: code });
       setSearchParams({});
     }
   }, [isConnected, searchParams, roomCode, sendMessage, setSearchParams]);
@@ -78,23 +78,23 @@ export const WaitingRoom = () => {
 
     switch (lastMessage.type) {
       case "ROOM_CREATED":
-        console.log("방 생성 성공:", lastMessage.roomCode);
+        console.log("방 생성 성공:", lastMessage.room_code);
         console.log("참가자 데이터:", lastMessage.data);
-        setRoomCode(lastMessage.roomCode);
+        setRoomCode(lastMessage.room_code);
         setParticipants(lastMessage.data || []);
-        localStorage.setItem("currentRoomCode", lastMessage.roomCode);
+        localStorage.setItem("currentRoomCode", lastMessage.room_code);
         setCanFinishLoading(true);
         break;
 
       case "USER_JOINED":
         console.log("참가자 입장/업데이트 (USER_JOINED)");
-        console.log("방 코드:", lastMessage.roomCode);
+        console.log("방 코드:", lastMessage.room_code);
         console.log("전체 목록:", lastMessage.data);
 
-        if (!roomCode && lastMessage.roomCode) {
+        if (!roomCode && lastMessage.room_code) {
           console.log("처음 입장 - roomCode 설정 및 localStorage 저장");
-          setRoomCode(lastMessage.roomCode);
-          localStorage.setItem("currentRoomCode", lastMessage.roomCode);
+          setRoomCode(lastMessage.room_code);
+          localStorage.setItem("currentRoomCode", lastMessage.room_code);
           setCanFinishLoading(true);
         }
 
@@ -169,7 +169,7 @@ export const WaitingRoom = () => {
 
     if (roomCode) {
       console.log("ROOM_EXIT 메시지 전송:", roomCode);
-      sendMessage({ type: "ROOM_EXIT", roomCode });
+      sendMessage({ type: "ROOM_EXIT", room_code: roomCode });
     }
 
     localStorage.removeItem("currentRoomCode");
@@ -199,7 +199,7 @@ export const WaitingRoom = () => {
           currentRoomCode,
         );
         if (isConnected) {
-          sendMessage({ type: "ROOM_EXIT", roomCode: currentRoomCode });
+          sendMessage({ type: "ROOM_EXIT", room_code: currentRoomCode });
         }
         localStorage.removeItem("currentRoomCode");
       }
