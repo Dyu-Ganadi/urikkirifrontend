@@ -32,7 +32,7 @@ export const WaitingRoom = () => {
       return;
     }
 
-    const savedRoomCode = localStorage.getItem("currentRoomCode");
+    const savedRoomCode = localStorage.getItem("gameRoomCode");
     if (savedRoomCode) {
       console.log("저장된 방 코드로 재입장:", savedRoomCode);
       setIsLoading(true);
@@ -82,7 +82,7 @@ export const WaitingRoom = () => {
         console.log("참가자 데이터:", lastMessage.data);
         setRoomCode(lastMessage.room_code);
         setParticipants(lastMessage.data || []);
-        localStorage.setItem("currentRoomCode", lastMessage.room_code);
+        localStorage.setItem("gameRoomCode", lastMessage.room_code);
         setCanFinishLoading(true);
         break;
 
@@ -94,7 +94,7 @@ export const WaitingRoom = () => {
         if (!roomCode && lastMessage.room_code) {
           console.log("처음 입장 - roomCode 설정 및 localStorage 저장");
           setRoomCode(lastMessage.room_code);
-          localStorage.setItem("currentRoomCode", lastMessage.room_code);
+          localStorage.setItem("gameRoomCode", lastMessage.room_code);
           setCanFinishLoading(true);
         }
 
@@ -109,7 +109,7 @@ export const WaitingRoom = () => {
           setCanFinishLoading(true);
           setRoomCode(null);
           setParticipants([]);
-          localStorage.removeItem("currentRoomCode");
+          localStorage.removeItem("gameRoomCode");
           navigate("/", { replace: true });
         } else if (lastMessage.data) {
           console.log("다른 참가자 퇴장:", lastMessage.data.nickname);
@@ -133,7 +133,7 @@ export const WaitingRoom = () => {
 
         if (lastMessage.message === "User is Already in This Room") {
           console.log("이미 방에 있음 (새로고침), localStorage에서 복구");
-          const savedRoomCode = localStorage.getItem("currentRoomCode");
+          const savedRoomCode = localStorage.getItem("gameRoomCode");
           if (savedRoomCode) {
             setRoomCode(savedRoomCode);
             setParticipants([]);
@@ -142,7 +142,7 @@ export const WaitingRoom = () => {
         }
 
         Swal.fire({ icon: "error", title: "오류", text: lastMessage.message });
-        localStorage.removeItem("currentRoomCode");
+        localStorage.removeItem("gameRoomCode");
         navigate("/");
         break;
     }
@@ -172,17 +172,17 @@ export const WaitingRoom = () => {
       sendMessage({ type: "ROOM_EXIT", room_code: roomCode });
     }
 
-    localStorage.removeItem("currentRoomCode");
+    localStorage.removeItem("gameRoomCode");
     navigate("/");
   };
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      const currentRoomCode = localStorage.getItem("currentRoomCode");
-      if (currentRoomCode) {
+      const savedGameRoomCode = localStorage.getItem("gameRoomCode");
+      if (savedGameRoomCode) {
         console.log(
           "브라우저 닫기/새로고침 시 localStorage 정리:",
-          currentRoomCode,
+          savedGameRoomCode,
         );
       }
     };
@@ -192,16 +192,16 @@ export const WaitingRoom = () => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
 
-      const currentRoomCode = localStorage.getItem("currentRoomCode");
-      if (currentRoomCode) {
+      const savedGameRoomCode = localStorage.getItem("gameRoomCode");
+      if (savedGameRoomCode) {
         console.log(
           "페이지 이탈 시 ROOM_EXIT 전송 및 localStorage 정리:",
-          currentRoomCode,
+          savedGameRoomCode,
         );
         if (isConnected) {
-          sendMessage({ type: "ROOM_EXIT", room_code: currentRoomCode });
+          sendMessage({ type: "ROOM_EXIT", room_code: savedGameRoomCode });
         }
-        localStorage.removeItem("currentRoomCode");
+        localStorage.removeItem("gameRoomCode");
       }
     };
   }, [isConnected, sendMessage]);
@@ -219,8 +219,6 @@ export const WaitingRoom = () => {
         return;
       }
 
-      localStorage.setItem("gameRoomCode", roomCode || "");
-      localStorage.removeItem("currentRoomCode");
       navigate("/game");
       return;
     }
