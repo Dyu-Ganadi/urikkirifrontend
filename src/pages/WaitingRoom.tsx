@@ -203,9 +203,6 @@ export const WaitingRoom = () => {
 
     if (countdown === 0) {
       const token = localStorage.getItem("access_token");
-      console.log("========== 게임 시작 데이터 저장 ==========");
-      console.log("roomCode:", roomCode);
-      console.log("token:", token);
 
       if (!token) {
         console.error("access_token이 없습니다!");
@@ -215,11 +212,6 @@ export const WaitingRoom = () => {
       }
 
       localStorage.setItem("gameRoomCode", roomCode || "");
-      localStorage.setItem("gameToken", token);
-      console.log("localStorage에 저장 완료");
-      console.log("- gameRoomCode:", roomCode);
-      console.log("- gameToken:", token?.substring(0, 20) + "...");
-
       localStorage.removeItem("currentRoomCode");
       navigate("/game");
       return;
