@@ -2,6 +2,7 @@ import { useState } from "react";
 import { add_game } from "../assets/icon/index";
 import { useNavigate } from "react-router-dom";
 import { useWebSocketContext } from "../context/WebSocketContext";
+import Swal from "sweetalert2";
 
 interface Prop {
   isAuth: boolean;
@@ -34,7 +35,7 @@ export const LoginButton = ({ isAuth }: Prop) => {
       if (connected) {
         navigate("/wait-room?action=create");
       } else {
-        alert("연결에 실패했습니다. 다시 시도해주세요.");
+        Swal.fire({ icon: "error", title: "연결 실패", text: "다시 시도해주세요." });
       }
     } else {
       navigate("/signup");

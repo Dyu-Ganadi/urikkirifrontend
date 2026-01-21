@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { key_icon } from "../assets/icon/index";
 import { useWebSocketContext } from "../context/WebSocketContext";
+import Swal from "sweetalert2";
 
 export const EnterRoom = () => {
   const navigate = useNavigate();
@@ -25,10 +26,10 @@ export const EnterRoom = () => {
       if (connected) {
         navigate(`/wait-room?roomCode=${key.trim()}`);
       } else {
-        alert("연결에 실패했습니다. 다시 시도해주세요.");
+        Swal.fire({ icon: "error", title: "연결 실패", text: "다시 시도해주세요." });
       }
     } else {
-      alert("6자리 방 코드를 입력해주세요");
+      Swal.fire({ icon: "warning", title: "6자리 방 코드를 입력해주세요" });
     }
   };
 

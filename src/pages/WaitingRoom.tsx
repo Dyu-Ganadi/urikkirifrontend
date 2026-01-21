@@ -4,6 +4,7 @@ import { WaitingSection } from "../components/index";
 import { exit_white, copy_icon } from "../assets/icon/index";
 import { useWebSocketContext } from "../context/WebSocketContext";
 import type { Participant } from "../api/websocket.types";
+import Swal from "sweetalert2";
 
 export const WaitingRoom = () => {
   const navigate = useNavigate();
@@ -140,7 +141,7 @@ export const WaitingRoom = () => {
           return;
         }
 
-        alert(lastMessage.message);
+        Swal.fire({ icon: "error", title: "오류", text: lastMessage.message });
         localStorage.removeItem("currentRoomCode");
         navigate("/");
         break;
@@ -150,14 +151,21 @@ export const WaitingRoom = () => {
   const handleCopyCode = () => {
     if (roomCode) {
       navigator.clipboard.writeText(roomCode);
-      alert("코드가 복사되었습니다!");
+      Swal.fire({ icon: "success", title: "코드가 복사되었습니다!", timer: 1500, showConfirmButton: false });
     }
   };
 
-  const handleExit = () => {
-    const confirmed = window.confirm("정말 방에서 나가시겠습니까?");
+  const handleExit = async () => {
+    const result = await Swal.fire({
+      icon: "question",
+      title: "정말 방에서 나가시겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "나가기",
+      cancelButtonText: "취소",
+      confirmButtonColor: "#d33",
+    });
 
-    if (!confirmed) return;
+    if (!result.isConfirmed) return;
 
     if (roomCode) {
       console.log("ROOM_EXIT 메시지 전송:", roomCode);
@@ -206,7 +214,7 @@ export const WaitingRoom = () => {
 
       if (!token) {
         console.error("access_token이 없습니다!");
-        alert("로그인 정보가 없습니다. 다시 로그인해주세요.");
+        Swal.fire({ icon: "error", title: "로그인 정보가 없습니다", text: "다시 로그인해주세요." });
         navigate("/");
         return;
       }

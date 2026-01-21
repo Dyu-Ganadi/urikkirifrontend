@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AuthInput, AuthButton } from "../components/index";
 import { userApi } from "../api/user";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const SignupPage = () => {
   const [email, setEmail] = useState("");
@@ -12,19 +13,19 @@ export const SignupPage = () => {
 
   const handleSignup = async () => {
     if (!email) {
-      alert("이메일을 입력하세요.");
+      Swal.fire({ icon: "warning", title: "이메일을 입력하세요." });
       return;
     }
     if (!nickname) {
-      alert("닉네임을 입력하세요.");
+      Swal.fire({ icon: "warning", title: "닉네임을 입력하세요." });
       return;
     }
     if (!password || !passwordCheck) {
-      alert("비밀번호와 비밀번호 확인을 모두 입력하세요.");
+      Swal.fire({ icon: "warning", title: "비밀번호와 비밀번호 확인을 모두 입력하세요." });
       return;
     }
     if (password != passwordCheck) {
-      alert("비밀번호가 일치하지 않습니다.");
+      Swal.fire({ icon: "error", title: "비밀번호가 일치하지 않습니다." });
       return;
     }
 
@@ -40,14 +41,14 @@ export const SignupPage = () => {
       if (error.response?.status === 400) {
         const emailError = error.response?.data?.email;
         if (emailError) {
-          alert(emailError);
+          Swal.fire({ icon: "error", title: "회원가입 실패", text: emailError });
         } else {
-          alert("입력 정보를 확인해주세요.");
+          Swal.fire({ icon: "error", title: "회원가입 실패", text: "입력 정보를 확인해주세요." });
         }
       } else if (error.response?.status === 409) {
-        alert("이미 사용 중인 닉네임입니다.");
+        Swal.fire({ icon: "error", title: "회원가입 실패", text: "이미 사용 중인 닉네임입니다." });
       } else {
-        alert("회원가입에 실패했습니다.");
+        Swal.fire({ icon: "error", title: "회원가입에 실패했습니다." });
       }
     }
   };

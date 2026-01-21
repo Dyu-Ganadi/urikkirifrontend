@@ -1,6 +1,7 @@
 import { UnityGame } from "../components/index";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const GamePage = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export const GamePage = () => {
     const savedRoomCode = localStorage.getItem("gameRoomCode");
 
     if (!savedToken || !savedRoomCode) {
-      alert("잘못된 접근입니다.");
+      Swal.fire({ icon: "error", title: "잘못된 접근입니다." });
       navigate("/");
       return;
     }

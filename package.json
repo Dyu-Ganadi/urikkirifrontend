@@ -16,6 +16,7 @@
     "react-router-dom": "^7.9.5",
     "react-unity-webgl": "^10.1.6",
     "recharts": "^3.5.1",
+    "sweetalert2": "^11.26.17",
     "tailwind-scrollbar-hide": "^4.0.0"
   },
   "devDependencies": {

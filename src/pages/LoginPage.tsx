@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AuthInput, AuthButton } from "../components/index";
 import { userApi } from "../api/user";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -10,11 +11,11 @@ export const LoginPage = () => {
 
   const handleLogin = async () => {
     if (!email) {
-      alert("이메일을 입력하세요.");
+      Swal.fire({ icon: "warning", title: "이메일을 입력하세요." });
       return;
     }
     if (!password) {
-      alert("비밀번호를 입력하세요.");
+      Swal.fire({ icon: "warning", title: "비밀번호를 입력하세요." });
       return;
     }
 
@@ -27,11 +28,11 @@ export const LoginPage = () => {
       navigate("/");
     } catch (error: any) {
       if (error.response?.status === 401) {
-        alert("이메일 또는 비밀번호가 올바르지 않습니다.");
+        Swal.fire({ icon: "error", title: "로그인 실패", text: "이메일 또는 비밀번호가 올바르지 않습니다." });
       } else if (error.response?.status === 404) {
-        alert("존재하지 않는 계정입니다.");
+        Swal.fire({ icon: "error", title: "로그인 실패", text: "존재하지 않는 계정입니다." });
       } else {
-        alert("로그인에 실패했습니다. 다시 시도해주세요.");
+        Swal.fire({ icon: "error", title: "로그인 실패", text: "다시 시도해주세요." });
       }
     }
   };
