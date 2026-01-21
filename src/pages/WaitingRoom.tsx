@@ -175,9 +175,6 @@ export const WaitingRoom = () => {
       console.log("ROOM_EXIT 메시지 전송:", roomCode);
       sendMessage({ type: "ROOM_EXIT", room_code: roomCode });
     }
-
-    localStorage.removeItem("gameRoomCode");
-    navigate("/");
   };
 
   useEffect(() => {
