@@ -111,8 +111,8 @@ export const WaitingRoom = () => {
           setRoomCode(null);
           setParticipants([]);
           localStorage.removeItem("gameRoomCode");
-          navigate("/", { replace: true });
           disconnect();
+          navigate("/", { replace: true });
         } else if (lastMessage.data) {
           console.log("다른 참가자 퇴장:", lastMessage.data.nickname);
           setParticipants((prev) =>
@@ -146,8 +146,8 @@ export const WaitingRoom = () => {
 
         Swal.fire({ icon: "error", title: "오류", text: lastMessage.message });
         localStorage.removeItem("gameRoomCode");
-        navigate("/");
         disconnect();
+        navigate("/");
         break;
     }
   }, [lastMessage, navigate]);
