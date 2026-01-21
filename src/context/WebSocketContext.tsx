@@ -63,6 +63,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         console.log("WebSocket 연결 종료");
         setIsConnected(false);
         setIsConnecting(false);
+        setLastMessage(null);
       };
     });
   }, []);
