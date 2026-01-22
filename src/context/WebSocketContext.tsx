@@ -51,6 +51,10 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         const message = JSON.parse(event.data) as WSMessage;
         console.log("받은 메시지:", message);
         setLastMessage(message);
+        if (wsRef.current?.readyState === WebSocket.OPEN && message?.type === "KEEPALIVE") {
+          console.log("keep alive");
+          wsRef.current.send(JSON.stringify({ type: "KEEPALIVE" }));
+        }
       };
 
       ws.onerror = (error) => {

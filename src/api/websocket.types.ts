@@ -1,5 +1,6 @@
 export type WebSocketMessageType =
   | "CONNECTED"
+  | "KEEPALIVE"
   | "CREATE_ROOM"
   | "ROOM_CREATED"
   | "JOIN_ROOM"
@@ -93,8 +94,14 @@ export interface ConnectedMessage {
   message: string;
 }
 
+export interface KeepAliveMessage {
+  type: "KEEPALIVE";
+  message: string;
+}
+
 export type WSMessage =
   | ConnectedMessage
+  | KeepAliveMessage
   | RoomCreatedMessage
   | UserJoinedMessage
   | RoomExitResponse
